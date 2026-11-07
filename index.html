@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezerwacja wizyty online — gabinet psychoterapii</title>
+  <meta name="description" content="Sprawdź wolne terminy i zarezerwuj wizytę w gabinecie psychoterapii bez dzwonienia i bez zakładania konta.">
+  <meta name="theme-color" content="#1e4569">
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/rezerwacja.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+
+  <header class="site-head">
+    <div class="wrap">
+      <p class="site-head__brand">Gabinet psychoterapii</p>
+      <h1>Rezerwacja wizyty online</h1>
+      <p>Wybierz wolny termin, podaj imię, nazwisko i numer telefonu. Termin jest rezerwowany od razu — bez zakładania konta.</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="facts">
+      <p><strong>Sesja trwa 50 minut.</strong> Prosimy o przybycie ok. 5 minut wcześniej.</p>
+      <p><strong>Online rezerwujesz od 24 godzin do 28 dni przed wizytą.</strong> Na krótszy termin zadzwoń.</p>
+      <p><strong>Zmiana lub odwołanie wizyty — tylko telefonicznie:</strong> <a class="js-phone" href="#">numer gabinetu</a>.</p>
+    </div>
+
+    <section id="calendar" aria-labelledby="calendar-title">
+      <h2 id="calendar-title" class="hint" style="font-family:var(--sans);font-weight:500;margin-bottom:.75rem;">Wolne terminy</h2>
+      <div class="week-nav">
+        <button type="button" id="week-prev" class="btn btn--outline">← Poprzedni</button>
+        <p class="week-nav__label" id="week-label" aria-live="polite"></p>
+        <button type="button" id="week-next" class="btn btn--outline">Następny →</button>
+      </div>
+      <p class="status" id="status" role="status">Ładowanie terminów…</p>
+      <div class="days" id="days"></div>
+    </section>
+
+    <section class="card booking" id="booking" hidden aria-labelledby="booking-title">
+      <h2 id="booking-title">Twoje dane</h2>
+      <div class="booking__slot">
+        <span id="booking-slot"></span>
+        <button type="button" class="link-btn" id="change-slot">zmień termin</button>
+      </div>
+      <form id="booking-form" novalidate>
+        <div class="field">
+          <label for="f-name">Imię i nazwisko</label>
+          <input type="text" id="f-name" name="name" autocomplete="name" required minlength="3" maxlength="60" placeholder="np. Anna Kowalska">
+        </div>
+        <div class="field">
+          <label for="f-phone">Numer telefonu</label>
+          <input type="tel" id="f-phone" name="phone" autocomplete="tel" required inputmode="tel" placeholder="np. 600 100 200">
+        </div>
+        <div class="honeypot" aria-hidden="true">
+          <label for="f-website">Strona www</label>
+          <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="check">
+          <input type="checkbox" id="f-rodo" required>
+          <label for="f-rodo">Wyrażam zgodę na przetwarzanie moich danych (imię i nazwisko, numer telefonu) w celu umówienia wizyty. Dane są usuwane 7 dni po terminie wizyty.</label>
+        </div>
+        <p class="error" id="booking-error" role="alert"></p>
+        <button type="submit" class="btn btn--accent btn--block" id="submit">Rezerwuję termin</button>
+      </form>
+    </section>
+
+    <section class="card success" id="success" hidden aria-live="polite">
+      <h2>Termin zarezerwowany</h2>
+      <p><strong id="success-slot"></strong></p>
+      <p>Rezerwacja jest potwierdzona — nie musisz nic więcej robić.</p>
+      <p class="hint">Jeśli musisz zmienić lub odwołać termin, zadzwoń: <a class="js-phone" href="#">numer gabinetu</a>.</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel gabinetu — rezerwacje</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1e4569">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/panel.js"></script>
+</head>
+<body>
+  <div class="wrap" style="padding-top:1rem;padding-bottom:2rem;">
+    <p id="boot" class="hint" style="text-align:center;margin-top:15vh;">Łączenie z serwerem…</p>
+
+    <!-- Logowanie: hasło + kod z aplikacji uwierzytelniającej -->
+    <main id="login-view" class="card login" hidden>
+      <h1>Panel gabinetu</h1>
+      <form id="login-form">
+        <div class="field">
+          <label for="login-password">Hasło</label>
+          <input type="password" id="login-password" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="login-totp">Kod z aplikacji (6 cyfr)</label>
+          <input type="text" id="login-totp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+        </div>
+        <p class="error" id="login-error" role="alert"></p>
+        <button type="submit" class="btn btn--primary btn--block">Zaloguj</button>
+      </form>
+    </main>
+
+    <!-- Panel -->
+    <main id="app-view" hidden>
+      <div class="panel-top">
+        <h1>Kalendarz wizyt</h1>
+        <button type="button" id="logout" class="btn btn--outline btn--small">Wyloguj</button>
+      </div>
+
+      <section class="card" aria-labelledby="week-label">
+        <div class="week-nav">
+          <button type="button" id="week-prev" class="btn btn--outline btn--small" aria-label="Poprzedni tydzień">←</button>
+          <h2 class="week-nav__label" id="week-label" style="margin:0;font-size:1.05rem;"></h2>
+          <button type="button" id="week-next" class="btn btn--outline btn--small" aria-label="Następny tydzień">→</button>
+        </div>
+        <p class="legend">
+          <span class="l-free">wolny — wpisz wizytę lub zablokuj</span>
+          <span class="l-booked">wizyta — szczegóły i odwołanie</span>
+          <span class="l-blocked">zablokowany — odblokuj</span>
+        </p>
+        <div class="adm-days" id="grid"></div>
+      </section>
+
+      <section class="card" aria-labelledby="upcoming-title">
+        <h2 id="upcoming-title">Najbliższe wizyty</h2>
+        <ul class="upcoming" id="upcoming"></ul>
+      </section>
+
+      <section class="card" aria-labelledby="hours-title">
+        <h2 id="hours-title">Grafik przyjęć</h2>
+        <p class="hint" style="margin-bottom:.5rem;">Wpisz godziny <strong>rozpoczęcia</strong> wizyt, oddzielone przecinkami (sesja trwa 50 minut), np. <code>11:40, 12:50, 13:40</code>. Z grafiku wynikają terminy widoczne dla klientów.</p>
+        <div id="hours"></div>
+        <p style="margin-top:.75rem;">
+          <button type="button" id="hours-save" class="btn btn--primary btn--small">Zapisz grafik</button>
+          <span class="saved" id="hours-status" role="status"></span>
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Wolny termin: wpisanie wizyty umówionej telefonicznie albo blokada -->
+  <dialog id="slot-dialog" aria-labelledby="slot-title">
+    <h2 id="slot-title"></h2>
+    <div id="slot-choice" class="stack">
+      <button type="button" id="slot-add" class="btn btn--primary">Wpisz wizytę (umówioną telefonicznie)</button>
+      <button type="button" id="slot-block" class="btn btn--outline">Zablokuj termin</button>
+    </div>
+    <form id="slot-form" hidden novalidate>
+      <div class="field">
+        <label for="sf-name">Imię i nazwisko klienta</label>
+        <input type="text" id="sf-name" maxlength="60" placeholder="np. Anna Kowalska">
+      </div>
+      <div class="field">
+        <label for="sf-phone">Telefon (opcjonalnie)</label>
+        <input type="tel" id="sf-phone" inputmode="tel" placeholder="np. 600 100 200">
+      </div>
+      <p class="error" id="sf-error" role="alert"></p>
+      <button type="submit" class="btn btn--accent btn--block">Zapisz wizytę</button>
+    </form>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn--outline js-close">Anuluj</button>
+    </div>
+  </dialog>
+
+  <!-- Szczegóły wizyty i odwołanie -->
+  <dialog id="booking-dialog" aria-labelledby="bd-title">
+    <h2 id="bd-title"></h2>
+    <p><strong id="bd-name"></strong> <span class="tag" id="bd-source"></span></p>
+    <p id="bd-phone"></p>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn--outline js-close">Zamknij</button>
+      <button type="button" id="bd-cancel" class="btn btn--danger">Odwołaj wizytę</button>
+    </div>
+  </dialog>
+</body>
+</html>
