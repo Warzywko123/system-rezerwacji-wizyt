@@ -20,11 +20,13 @@ export default async function handler(req, res) {
 
     if (action === 'block' || action === 'unblock') {
       const m = Number(min);
-      if (!starts.includes(m)) return j(res, 400, { error: 'Termin poza godzinami przyjęć.' });
+      if (!Number.isInteger(m)) return j(res, 400, { error: 'Nieprawidłowa godzina' });
+      // Odblokować można też termin, którego po zmianie grafiku już w nim nie ma.
       if (action === 'unblock') {
         await sql`DELETE FROM blocks WHERE slot_date = ${date} AND slot_min = ${m}`;
         return j(res, 200, { ok: true });
       }
+      if (!starts.includes(m)) return j(res, 400, { error: 'Termin poza godzinami przyjęć.' });
       if (await isBooked(date, m)) return j(res, 409, { error: 'Na ten termin jest wizyta — najpierw ją odwołaj.' });
       await addBlock(date, m);
       return j(res, 200, { ok: true });

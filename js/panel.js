@@ -82,12 +82,16 @@ function render() {
     const day = addDays(state.monday, i);
     const date = toISO(day);
     const starts = schedule[day.getDay()] ?? [];
+    // Wizyty i blokady umówione przed zmianą grafiku zostają ważne — pokazujemy je,
+    // nawet jeśli ich godziny nie ma już w obecnym grafiku.
+    const extra = [...bookings, ...blocks].filter((b) => b.slot_date === date).map((b) => b.slot_min);
+    const mins = [...new Set([...starts, ...extra])].sort((a, b) => a - b);
 
     const card = document.createElement('div');
     card.className = 'adm-day';
     card.innerHTML = `<p class="adm-day__head"><strong>${DAY_NAMES[day.getDay()]}</strong><span>${day.getDate()} ${MONTHS[day.getMonth()]}</span></p>`;
 
-    if (!starts.length) {
+    if (!mins.length) {
       card.insertAdjacentHTML('beforeend', '<p class="adm-day__off">Brak przyjęć</p>');
       return card;
     }
@@ -95,7 +99,7 @@ function render() {
     const list = document.createElement('div');
     list.className = 'adm-day__slots';
     let freeLeft = 0;
-    for (const min of starts) {
+    for (const min of mins) {
       const key = `${date}|${min}`;
       const time = hhmm(min);
       const past = isPast(date, min);
@@ -113,7 +117,7 @@ function render() {
     }
     card.append(list);
 
-    if (!isPast(date, starts.at(-1))) {
+    if (starts.length && !isPast(date, starts.at(-1))) {
       const t = document.createElement('button');
       t.type = 'button';
       t.className = 'day-toggle';
