@@ -154,6 +154,9 @@ export function slotBookableOnline(dateStr, min) {
   return slot >= now + MIN_LEAD_HOURS * 3600e3 && slot <= now + MAX_DAYS_AHEAD * 86400e3;
 }
 
+// Dzisiejsza data w Warszawie (RRRR-MM-DD).
+export const warsawToday = () => new Date(warsawNowAsUTC()).toISOString().slice(0, 10);
+
 // Czy wizyta całkowicie minęła (trwająca jeszcze się nie liczy).
 export const slotIsOver = (dateStr, min) => slotAsUTC(dateStr, min) + SLOT_MINUTES * 60e3 <= warsawNowAsUTC();
 
@@ -172,32 +175,75 @@ export const cleanPhone = (raw) => String(raw ?? '').replace(/[\s\-().]/g, '').r
 export const isValidPhone = (p) => /^\d{9}$/.test(p);
 
 // ---------- Sesja panelu: token "wygaśnięcie.podpisHMAC" w ciasteczku httpOnly ----------
-const COOKIE = 'panel_session';
-const SESSION_DAYS = 30;
+// Dwie role z osobnymi hasłami, sekretami 2FA i ciasteczkami:
+//  - staff: recepcjonista i terapeuta (wspólne konto panelu), sesja 30 dni,
+//  - guard: ochroniarz — widzi tylko listę dzisiejszych wizyt, sesja 12 godzin (jedna zmiana).
+const ROLES = {
+  staff: { cookie: 'panel_session', seconds: 30 * 86400, password: 'ADMIN_PASSWORD', totp: 'ADMIN_TOTP_SECRET' },
+  guard: { cookie: 'ochrona_session', seconds: 12 * 3600, password: 'OCHRONA_PASSWORD', totp: 'OCHRONA_TOTP_SECRET' },
+};
 
-const sign = (exp) =>
-  crypto.createHmac('sha256', process.env.SESSION_SECRET).update(`session:${exp}`).digest('base64url');
+// Rola jest częścią podpisu, więc ciasteczka ochroniarza nie da się użyć w panelu.
+const sign = (role, exp) =>
+  crypto.createHmac('sha256', process.env.SESSION_SECRET).update(`session:${role}:${exp}`).digest('base64url');
 
-export function makeSessionCookie() {
-  const exp = Date.now() + SESSION_DAYS * 86400e3;
-  return `${COOKIE}=${exp}.${sign(exp)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_DAYS * 86400}`;
+export function makeSessionCookie(role = 'staff') {
+  const { cookie, seconds } = ROLES[role];
+  const exp = Date.now() + seconds * 1000;
+  return `${cookie}=${exp}.${sign(role, exp)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${seconds}`;
 }
 
-export const clearSessionCookie = () => `${COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+export const clearSessionCookies = () =>
+  Object.values(ROLES).map(({ cookie }) => `${cookie}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`);
 
-export function isAuthed(req) {
-  const raw = (req.headers.cookie ?? '').split(/;\s*/).find((c) => c.startsWith(`${COOKIE}=`));
+export function isAuthed(req, role = 'staff') {
+  const { cookie } = ROLES[role];
+  const raw = (req.headers.cookie ?? '').split(/;\s*/).find((c) => c.startsWith(`${cookie}=`));
   if (!raw) return false;
-  const [exp, sig] = raw.slice(COOKIE.length + 1).split('.');
+  const [exp, sig] = raw.slice(cookie.length + 1).split('.');
   if (!exp || !sig || Number(exp) < Date.now()) return false;
-  const good = sign(exp);
+  const good = sign(role, exp);
   return sig.length === good.length && crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(good));
 }
 
-export function requireAuth(req, res) {
-  if (isAuthed(req)) return true;
+export function requireAuth(req, res, role = 'staff') {
+  if (isAuthed(req, role)) return true;
   j(res, 401, { error: 'Wymagane logowanie' });
   return false;
+}
+
+// Logowanie hasłem i kodem 2FA dla danej roli. Limit: LOGIN_MAX_FAILS nieudanych prób
+// z jednego IP w ciągu LOGIN_WINDOW_MIN minut (wspólny dla obu ról).
+export async function handleLogin(req, res, role) {
+  const ipHash = ipHashOf(req);
+  const [{ count }] = await sql`SELECT count(*)::int AS count FROM login_attempts
+    WHERE ip_hash = ${ipHash} AND attempted_at > now() - make_interval(mins => ${LOGIN_WINDOW_MIN}::int)`;
+  if (count >= LOGIN_MAX_FAILS) {
+    return j(res, 429, { error: `Zbyt wiele prób logowania. Spróbuj za ${LOGIN_WINDOW_MIN} minut.` });
+  }
+
+  // 2FA jest obowiązkowe: bez sekretu nikt nie wejdzie (fail closed).
+  const totpSecret = process.env[ROLES[role].totp] ?? '';
+  const good = process.env[ROLES[role].password] ?? '';
+  if (!totpSecret || !good) {
+    console.error(`login(${role}): brak hasła lub sekretu 2FA — logowanie zablokowane`);
+    return j(res, 503, { error: 'Logowanie chwilowo niedostępne — brak konfiguracji.' });
+  }
+
+  const body = readBody(req);
+  const hash = (s) => crypto.createHash('sha256').update(String(s ?? '')).digest();
+  const passOk = crypto.timingSafeEqual(hash(body.password), hash(good));
+  const totpOk = verifyTOTP(totpSecret, body.totp);
+
+  // Jeden ogólny komunikat — nie zdradzamy, czy pomylono hasło, czy kod.
+  if (!passOk || !totpOk) {
+    await sql`INSERT INTO login_attempts (ip_hash) VALUES (${ipHash})`;
+    await new Promise((r) => setTimeout(r, 600));
+    return j(res, 401, { error: 'Nieprawidłowe hasło lub kod.' });
+  }
+
+  res.setHeader('Set-Cookie', makeSessionCookie(role));
+  return j(res, 200, { ok: true });
 }
 
 // ---------- HTTP ----------

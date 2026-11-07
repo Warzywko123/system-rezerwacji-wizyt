@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ochrona — wizyty na dziś</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1e4569">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/ochrona.js"></script>
+</head>
+<body>
+  <div class="wrap" style="padding-top:1rem;padding-bottom:2rem;">
+    <p id="boot" class="hint" style="text-align:center;margin-top:15vh;">Łączenie z serwerem…</p>
+
+    <main id="login-view" class="card login" hidden>
+      <h1>Ochrona budynku</h1>
+      <form id="login-form">
+        <div class="field">
+          <label for="login-password">Hasło ochrony</label>
+          <input type="password" id="login-password" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="login-totp">Kod z aplikacji (6 cyfr)</label>
+          <input type="text" id="login-totp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+        </div>
+        <p class="error" id="login-error" role="alert"></p>
+        <button type="submit" class="btn btn--primary btn--block">Zaloguj</button>
+      </form>
+    </main>
+
+    <main id="app-view" hidden>
+      <div class="panel-top">
+        <h1 id="today-title">Wizyty na dziś</h1>
+        <button type="button" id="logout" class="btn btn--outline btn--small">Wyloguj</button>
+      </div>
+      <section class="card" aria-labelledby="today-title">
+        <p class="hint" style="margin-bottom:.75rem;">Klienci gabinetu psychoterapii umówieni na dziś. Lista odświeża się co 5 minut.</p>
+        <ul class="upcoming" id="visits"></ul>
+        <p style="margin-top:1rem;">
+          <button type="button" id="refresh" class="btn btn--outline btn--small">Odśwież</button>
+          <span class="hint" id="updated" role="status" style="margin-left:.6rem;"></span>
+        </p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

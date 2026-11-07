@@ -4,8 +4,9 @@ Projekt zespołowy z przedmiotu **Inżynieria oprogramowania** (grupa L1, zespó
 Autorzy: Tymon Grochowski, Hubert Zduńczyk, Wojciech Czajkowski.
 
 To uproszczona wersja systemu działającego w prawdziwym gabinecie. Klient bez zakładania
-konta sprawdza wolne terminy i rezerwuje wizytę. Recepcjonista i doktor korzystają ze
-wspólnego panelu chronionego hasłem i kodem z aplikacji uwierzytelniającej (2FA).
+konta sprawdza wolne terminy i rezerwuje wizytę. Recepcjonista i terapeuta korzystają ze
+wspólnego panelu chronionego hasłem i kodem z aplikacji uwierzytelniającej (2FA), a ochroniarz
+budynku widzi listę wizyt na dany dzień.
 
 ## Funkcje
 
@@ -29,6 +30,11 @@ Odwołanie wizyty przez klienta jest możliwe tylko telefonicznie, bo klienci ni
 - blokowanie pojedynczych terminów i całych dni, np. na urlop,
 - tygodniowy grafik przyjęć.
 
+**Ochroniarz** (`/ochrona`):
+- osobne hasło i osobny sekret 2FA, sesja na 12 godzin (jedna zmiana),
+- lista dzisiejszych wizyt: tylko godzina oraz imię i nazwisko (bez telefonu), odświeżana co 5 minut,
+- brak dostępu do panelu personelu.
+
 **RODO:**
 - zbierane jest tylko imię i nazwisko oraz telefon,
 - adres IP jest zapisywany wyłącznie jako skrót HMAC (pseudonimizacja),
@@ -50,8 +56,8 @@ Koszt utrzymania: 0 zł (darmowe plany Vercel i Neon, bez płatnych SMS-ów i e-
 ```bash
 npm install
 cp .env.example .env.local   # uzupełnij hasło i sekrety
-npm run totp                 # wygeneruj sekret 2FA i wpisz go do .env.local
-npm run dev                  # http://localhost:3000 oraz http://localhost:3000/panel
+npm run totp                 # sekret 2FA panelu; uruchom drugi raz dla ochrony
+npm run dev                  # http://localhost:3000, /panel oraz /ochrona
 ```
 
 Lokalnie baza działa w PGlite (katalog `.pglite`), bez instalowania Postgresa.
@@ -64,6 +70,7 @@ npm test
 
 Testy sprawdzają reguły systemu na tymczasowej bazie:
 - logowanie z 2FA i blokadę po nieudanych próbach,
+- widok ochrony (tylko dzisiejsze wizyty, bez telefonów, brak dostępu do panelu),
 - okno 24 godziny–28 dni,
 - limity na numer telefonu i adres IP,
 - ochronę przed podwójną rezerwacją,
@@ -83,11 +90,13 @@ Testy sprawdzają reguły systemu na tymczasowej bazie:
 ```
 index.html, js/rezerwacja.js   strona rezerwacji dla klienta
 panel.html, js/panel.js        panel personelu
+ochrona.html, js/ochrona.js    lista wizyt na dziś dla ochroniarza
 js/dates.js                    wspólne funkcje dat i wywołań API
 css/style.css, fonts/          wygląd i fonty hostowane lokalnie (Inter, Lora — licencja OFL)
 api/_lib.js                    reguły rezerwacji, baza, sesja, 2FA, RODO
 api/slots.js, api/book.js      API dla klienta
 api/admin/*.js                 API panelu (logowanie, dane, wizyty, blokady, grafik)
+api/ochrona/*.js               API ochrony (logowanie, lista wizyt na dziś)
 test/api.test.js               testy automatyczne
 dev-server.js                  serwer lokalny
 ```

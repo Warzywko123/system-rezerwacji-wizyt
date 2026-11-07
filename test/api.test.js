@@ -10,6 +10,8 @@ process.env.PGLITE_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'rezerwacje-test-
 process.env.SESSION_SECRET = 'test-secret-test-secret-test-secret';
 process.env.ADMIN_PASSWORD = 'haslo-testowe';
 process.env.ADMIN_TOTP_SECRET = 'JBSWY3DPEHPK3PXP';
+process.env.OCHRONA_PASSWORD = 'ochrona-testowa';
+process.env.OCHRONA_TOTP_SECRET = 'KRSXG5CTMVRXEZLU';
 
 const lib = await import('../api/_lib.js');
 const call = async (file, { method = 'GET', query = {}, body, cookie, ip = '10.0.0.1' } = {}) => {
@@ -150,4 +152,25 @@ test('czyszczenie RODO usuwa wizyty starsze niż 7 dni po terminie', async () =>
   assert.ok(removed.bookings >= 1);
   const left = await lib.sql`SELECT 1 FROM bookings WHERE name = 'Stary Wpis'`;
   assert.equal(left.length, 0);
+});
+
+test('ochroniarz widzi tylko dzisiejsze wizyty, bez telefonów, i nie ma dostępu do panelu', async () => {
+  const today = lib.warsawToday();
+  await lib.sql`INSERT INTO bookings (slot_date, slot_min, name, phone) VALUES (${today}, 1430, 'Dzisiejszy Klient', '600111222')`;
+  const tomorrow = new Date(Date.parse(today) + 86400e3).toISOString().slice(0, 10);
+  await lib.sql`INSERT INTO bookings (slot_date, slot_min, name, phone) VALUES (${tomorrow}, 700, 'Jutrzejszy Klient', '600111333')`;
+
+  const bad = await call('ochrona/login', { method: 'POST', body: { password: 'haslo-testowe', totp: currentTOTP(process.env.ADMIN_TOTP_SECRET) }, ip: '10.6.0.1' });
+  assert.equal(bad.statusCode, 401, 'hasło panelu nie otwiera widoku ochrony');
+  const ok = await call('ochrona/login', { method: 'POST', body: { password: 'ochrona-testowa', totp: currentTOTP(process.env.OCHRONA_TOTP_SECRET) }, ip: '10.6.0.2' });
+  assert.equal(ok.statusCode, 200);
+  const guard = ok.headers['set-cookie'].split(';')[0];
+
+  const list = await call('ochrona/today', { cookie: guard });
+  assert.equal(list.statusCode, 200);
+  assert.deepEqual(list.payload.visits.map((v) => v.name), ['Dzisiejszy Klient']);
+  assert.ok(!JSON.stringify(list.payload).includes('600111222'), 'brak numeru telefonu');
+
+  assert.equal((await call('admin/data', { query: { start: '2026-11-09' }, cookie: guard })).statusCode, 401);
+  assert.equal((await call('ochrona/today', { cookie })).statusCode, 401);
 });

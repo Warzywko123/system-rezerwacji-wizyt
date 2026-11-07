@@ -1,6 +1,7 @@
 // Jednorazowa konfiguracja 2FA panelu: node scripts/gen-totp.js
 // Generuje losowy sekret i link otpauth:// do dodania w aplikacji uwierzytelniającej
-// (Google Authenticator, Authy…). Recepcjonista i doktor dodają TEN SAM sekret.
+// (Google Authenticator, Authy…). Recepcjonista i terapeuta dodają TEN SAM sekret panelu;
+// ochroniarz dostaje osobny sekret (uruchom skrypt drugi raz → OCHRONA_TOTP_SECRET).
 import crypto from 'node:crypto';
 
 function base32Encode(buf) {
@@ -23,5 +24,6 @@ Link otpauth:
   ${uri}
 
 Dodaj do .env.local (lokalnie) i do zmiennych środowiskowych Vercela:
-  ADMIN_TOTP_SECRET=${secret}
+  ADMIN_TOTP_SECRET=${secret}      (panel)
+  albo OCHRONA_TOTP_SECRET=${secret}  (ochrona)
 `);

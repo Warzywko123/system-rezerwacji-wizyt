@@ -66,54 +66,75 @@
   </tbody>
 </table>
 
-<p class="change"><b>Zmiany w wersji 1.1:</b> dodano punkt 4 (diagram przypadków użycia i przypadki użycia) oraz punkt 5 (wymagania pozafunkcjonalne); punkty 1–3 uzupełniono o blokowanie terminów, usuwanie danych po 7 dniach i odwoływanie wizyt wyłącznie telefonicznie, a diagram kontekstu o blokady terminów.</p>
+<p class="change"><b>Zmiany w wersji 1.1:</b> dodano punkt 4 (diagram przypadków użycia i przypadki użycia) oraz punkt 5 (wymagania pozafunkcjonalne); dodano ochroniarza budynku (lista wizyt na dziś, UC7); terapeutaa przemianowano na terapeutę; diagram kontekstu uzupełniono o ochroniarza, administratora systemu, harmonogram zadań i aplikację uwierzytelniającą; punkty 1–3 uzupełniono o blokowanie terminów, usuwanie danych po 7 dniach i odwoływanie wizyt wyłącznie telefonicznie.</p>
 
 <h2>1. Informacje ogólne</h2>
 
-<p><b>Środowisko odbiorców docelowych.</b> Odbiorcą systemu jest gabinet psychoterapii, w którym pracuje doktor (psychoterapeuta) i recepcjonista. Doktor przyjmuje klientów indywidualnych, pary i rodziny w sesjach trwających 50 minut, kilka dni w tygodniu. Recepcjonista prowadzi zapisy i odbiera telefony. Przed wdrożeniem systemu wizyty umawiano wyłącznie telefonicznie przez recepcję, więc poza godzinami jej pracy klienci nie mieli jak się umówić. Klienci korzystają głównie z telefonów komórkowych, a personel gabinetu nie ma przygotowania technicznego.</p>
+<p><b>Środowisko odbiorców docelowych.</b> Odbiorcą systemu jest gabinet psychoterapii, w którym pracuje psychoterapeuta (dalej: terapeuta) i recepcjonista. Terapeuta przyjmuje klientów indywidualnych, pary i rodziny w sesjach trwających 50 minut, kilka dni w tygodniu. Recepcjonista prowadzi zapisy i odbiera telefony. Gabinet mieści się w budynku z ochroną, a ochroniarz przy wejściu wpuszcza klientów umówionych na dany dzień. Przed wdrożeniem systemu wizyty umawiano wyłącznie telefonicznie przez recepcję, więc poza godzinami jej pracy klienci nie mieli jak się umówić. Klienci korzystają głównie z telefonów komórkowych, a personel gabinetu nie ma przygotowania technicznego.</p>
 
-<p><b>Przeznaczenie produktu.</b> System pozwala klientom samodzielnie, o dowolnej porze, sprawdzić wolne terminy i zarezerwować wizytę na stronie internetowej gabinetu, bez zakładania konta. Recepcjonista i doktor korzystają ze wspólnego panelu działającego w przeglądarce telefonu lub komputera. Panel pokazuje kalendarz tygodnia z wizytami i listę najbliższych wizyt. Recepcjonista wpisuje w nim wizyty umówione telefonicznie i odwołuje wizyty, a doktor ustala grafik przyjęć i wyłącza z rezerwacji wybrane terminy lub dni, np. na czas urlopu.</p>
+<p><b>Przeznaczenie produktu.</b> System pozwala klientom samodzielnie, o dowolnej porze, sprawdzić wolne terminy i zarezerwować wizytę na stronie internetowej gabinetu, bez zakładania konta. Recepcjonista i terapeuta korzystają ze wspólnego panelu działającego w przeglądarce telefonu lub komputera. Panel pokazuje kalendarz tygodnia z wizytami i listę najbliższych wizyt. Recepcjonista wpisuje w nim wizyty umówione telefonicznie i odwołuje wizyty, a terapeuta ustala grafik przyjęć i wyłącza z rezerwacji wybrane terminy lub dni, np. na czas urlopu. Ochroniarz widzi w osobnym widoku listę wizyt na bieżący dzień (godzina, imię i nazwisko), aby wpuszczać umówionych klientów.</p>
 
-<p><b>Podstawowe założenia i warunki.</b> Koszt utrzymania ma wynosić 0 zł miesięcznie, dlatego system korzysta z darmowych planów usług chmurowych i nie wysyła płatnych SMS-ów ani e-maili. Dane dotyczą korzystania z pomocy psychoterapeutycznej, więc system musi spełniać wymogi RODO: zbierać minimum danych (imię i nazwisko, telefon), pseudonimizować adresy IP, usuwać dane wizyty 7 dni po jej terminie i chronić panel logowaniem dwuskładnikowym. Rezerwacja online jest możliwa najwcześniej 24 godziny i najpóźniej 28 dni przed terminem i jest potwierdzana automatycznie. Klient może mieć jednocześnie najwyżej 2 aktywne rezerwacje, a odwołać wizytę może tylko telefonicznie, ponieważ nie ma konta. Interfejs ma działać na telefonach bez instrukcji obsługi.</p>
+<p><b>Podstawowe założenia i warunki.</b> Koszt utrzymania ma wynosić 0 zł miesięcznie, dlatego system korzysta z darmowych planów usług chmurowych i nie wysyła płatnych SMS-ów ani e-maili. Dane dotyczą korzystania z pomocy psychoterapeutycznej, więc system musi spełniać wymogi RODO: zbierać minimum danych (imię i nazwisko, telefon), pseudonimizować adresy IP, usuwać dane wizyty 7 dni po jej terminie i chronić panel oraz widok ochrony logowaniem dwuskładnikowym. Ochroniarz widzi tylko dane niezbędne do wpuszczenia klienta. Rezerwacja online jest możliwa najwcześniej 24 godziny i najpóźniej 28 dni przed terminem i jest potwierdzana automatycznie. Klient może mieć jednocześnie najwyżej 2 aktywne rezerwacje, a odwołać wizytę może tylko telefonicznie, ponieważ nie ma konta. Interfejs ma działać na telefonach bez instrukcji obsługi.</p>
 
 <p><b>Oczekiwane korzyści biznesowe.</b> Mniej utraconych klientów, którzy nie mogli się dodzwonić, i możliwość rezerwacji także wieczorem i w weekend. Mniej czasu recepcji na telefoniczne ustalanie terminów. Bieżący wgląd w obłożenie kalendarza z dowolnego miejsca. Mniejsze ryzyko pomyłek, np. podwójnych rezerwacji, dzięki jednemu kalendarzowi dla rezerwacji online i telefonicznych. Lepszy wizerunek gabinetu jako nowoczesnego i dbającego o prywatność klientów.</p>
 
-<h2 class="newpage">2. Diagram kontekstu</h2>
+<h2>2. Diagram kontekstu</h2>
 <p class="author">Autor: Tymon Grochowski</p>
 
 <figure>
-<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" font-size="12" fill="#1f2933">
+<svg style="width:88%;margin:0 auto" viewBox="0 0 940 700" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" font-size="12" fill="#1f2933">
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#1f2933"/></marker>
   </defs>
-  <rect x="360" y="20" width="160" height="340" rx="16" fill="#eef3f9" stroke="#1f3b5c" stroke-width="2"/>
-  <text x="440" y="172" text-anchor="middle" font-weight="700" font-size="15" fill="#1f3b5c"><tspan x="440">System</tspan><tspan x="440" dy="19">rezerwacji</tspan><tspan x="440" dy="19">wizyt online</tspan></text>
-
-  <rect x="20" y="160" width="140" height="60" fill="#fff" stroke="#1f2933" stroke-width="1.4"/>
-  <text x="90" y="195" text-anchor="middle" font-weight="600" font-size="13">Klient</text>
-  <line x1="160" y1="180" x2="358" y2="180" stroke="#1f2933" stroke-width="1.3" marker-end="url(#a)"/>
-  <text x="260" y="130" text-anchor="middle"><tspan x="260">wybrany termin,</tspan><tspan x="260" dy="15">imię i nazwisko,</tspan><tspan x="260" dy="15">telefon, zgoda</tspan></text>
-  <line x1="358" y1="200" x2="162" y2="200" stroke="#1f2933" stroke-width="1.3" marker-end="url(#a)"/>
-  <text x="260" y="222" text-anchor="middle"><tspan x="260">wolne terminy,</tspan><tspan x="260" dy="15">potwierdzenie rezerwacji</tspan></text>
-
-  <rect x="740" y="65" width="140" height="60" fill="#fff" stroke="#1f2933" stroke-width="1.4"/>
-  <text x="810" y="100" text-anchor="middle" font-weight="600" font-size="13">Recepcjonista</text>
-  <line x1="740" y1="85" x2="522" y2="85" stroke="#1f2933" stroke-width="1.3" marker-end="url(#a)"/>
-  <text x="630" y="50" text-anchor="middle"><tspan x="630">hasło i kod 2FA, wizyty</tspan><tspan x="630" dy="15">telefoniczne, odwołania</tspan></text>
-  <line x1="522" y1="105" x2="738" y2="105" stroke="#1f2933" stroke-width="1.3" marker-end="url(#a)"/>
-  <text x="630" y="127" text-anchor="middle"><tspan x="630">kalendarz tygodnia,</tspan><tspan x="630" dy="15">dane wizyt</tspan></text>
-
-  <rect x="740" y="250" width="140" height="60" fill="#fff" stroke="#1f2933" stroke-width="1.4"/>
-  <text x="810" y="285" text-anchor="middle" font-weight="600" font-size="13">Doktor</text>
-  <line x1="740" y1="270" x2="522" y2="270" stroke="#1f2933" stroke-width="1.3" marker-end="url(#a)"/>
-  <text x="630" y="235" text-anchor="middle"><tspan x="630">hasło i kod 2FA, grafik</tspan><tspan x="630" dy="15">przyjęć, blokady terminów</tspan></text>
-  <line x1="522" y1="290" x2="738" y2="290" stroke="#1f2933" stroke-width="1.3" marker-end="url(#a)"/>
-  <text x="630" y="312" text-anchor="middle"><tspan x="630">kalendarz,</tspan><tspan x="630" dy="15">najbliższe wizyty</tspan></text>
+  <rect x="380" y="20" width="160" height="660" rx="16" fill="#eef3f9" stroke="#1f3b5c" stroke-width="2"/>
+  <text x="460" y="330" text-anchor="middle" font-weight="700" font-size="15" fill="#1f3b5c"><tspan x="460">System</tspan><tspan x="460" dy="19">rezerwacji</tspan><tspan x="460" dy="19">wizyt online</tspan></text>
+  <g stroke="#1f2933" stroke-width="1.4" fill="#fff">
+    <rect x="20" y="72" width="150" height="56"/>
+    <rect x="20" y="242" width="150" height="56"/>
+    <rect x="20" y="412" width="150" height="56"/>
+    <rect x="20" y="572" width="150" height="56"/>
+    <rect x="770" y="102" width="150" height="56"/>
+    <rect x="770" y="312" width="150" height="56"/>
+    <rect x="770" y="522" width="150" height="56"/>
+  </g>
+  <g text-anchor="middle" font-weight="600" font-size="13">
+    <text x="95" y="105">Klient</text>
+    <text x="95" y="275">Ochroniarz</text>
+    <text x="95" y="436"><tspan x="95">Aplikacja</tspan><tspan x="95" dy="16">uwierzytelniająca</tspan></text>
+    <text x="95" y="596"><tspan x="95">Harmonogram</tspan><tspan x="95" dy="16">zadań</tspan></text>
+    <text x="845" y="135">Recepcjonista</text>
+    <text x="845" y="345">Terapeuta</text>
+    <text x="845" y="546"><tspan x="845">Administrator</tspan><tspan x="845" dy="16">systemu</tspan></text>
+  </g>
+  <g stroke="#1f2933" stroke-width="1.3" marker-end="url(#a)">
+    <line x1="170" y1="90" x2="378" y2="90"/><line x1="378" y1="110" x2="172" y2="110"/>
+    <line x1="170" y1="260" x2="378" y2="260"/><line x1="378" y1="280" x2="172" y2="280"/>
+    <line x1="378" y1="440" x2="172" y2="440"/>
+    <line x1="170" y1="590" x2="378" y2="590"/><line x1="378" y1="610" x2="172" y2="610"/>
+    <line x1="770" y1="120" x2="542" y2="120"/><line x1="542" y1="140" x2="768" y2="140"/>
+    <line x1="770" y1="330" x2="542" y2="330"/><line x1="542" y1="350" x2="768" y2="350"/>
+    <line x1="770" y1="540" x2="542" y2="540"/><line x1="542" y1="560" x2="768" y2="560"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="274" y="40"><tspan x="274">wybrany termin,</tspan><tspan x="274" dy="15">imię i nazwisko,</tspan><tspan x="274" dy="15">telefon, zgoda</tspan></text>
+    <text x="274" y="130"><tspan x="274">wolne terminy,</tspan><tspan x="274" dy="15">potwierdzenie rezerwacji</tspan></text>
+    <text x="274" y="248">hasło i kod 2FA ochrony</text>
+    <text x="274" y="300"><tspan x="274">lista wizyt na dziś</tspan><tspan x="274" dy="15">(godzina, imię i nazwisko)</tspan></text>
+    <text x="274" y="413"><tspan x="274">wspólny sekret 2FA</tspan><tspan x="274" dy="15">(jednorazowo, przy konfiguracji)</tspan></text>
+    <text x="274" y="563"><tspan x="274">codzienne wywołanie</tspan><tspan x="274" dy="15">czyszczenia danych (3:00)</tspan></text>
+    <text x="274" y="630">liczba usuniętych wpisów</text>
+    <text x="655" y="93"><tspan x="655">hasło i kod 2FA, wizyty</tspan><tspan x="655" dy="15">telefoniczne, odwołania</tspan></text>
+    <text x="655" y="160"><tspan x="655">kalendarz tygodnia,</tspan><tspan x="655" dy="15">dane wizyt</tspan></text>
+    <text x="655" y="303"><tspan x="655">hasło i kod 2FA, grafik</tspan><tspan x="655" dy="15">przyjęć, blokady terminów</tspan></text>
+    <text x="655" y="370"><tspan x="655">kalendarz,</tspan><tspan x="655" dy="15">najbliższe wizyty</tspan></text>
+    <text x="655" y="513"><tspan x="655">konfiguracja: hasła, sekrety</tspan><tspan x="655" dy="15">2FA, numer gabinetu</tspan></text>
+    <text x="655" y="580">dziennik błędów</text>
+  </g>
 </svg>
 <figcaption>Rysunek 1. Diagram kontekstu systemu</figcaption>
 </figure>
 
-<p>System wymienia informacje z trzema bytami zewnętrznymi. Klient przekazuje wybrany termin i swoje dane, a otrzymuje listę wolnych terminów i potwierdzenie rezerwacji. Recepcjonista loguje się do panelu, wpisuje wizyty umówione telefonicznie i odwołuje wizyty, a otrzymuje kalendarz tygodnia z danymi wizyt. Doktor loguje się do tego samego panelu, ustala grafik przyjęć i blokuje wybrane terminy, a przegląda kalendarz oraz najbliższe wizyty. Wszyscy korzystają z systemu przez przeglądarkę internetową.</p>
+<p>System wymienia informacje z siedmioma jednostkami zewnętrznymi. Klient przekazuje wybrany termin i swoje dane, a otrzymuje listę wolnych terminów i potwierdzenie rezerwacji. Recepcjonista wpisuje wizyty umówione telefonicznie i odwołuje wizyty, a otrzymuje kalendarz tygodnia z danymi wizyt. Terapeuta ustala grafik przyjęć i blokuje wybrane terminy, a przegląda kalendarz oraz najbliższe wizyty. Ochroniarz po zalogowaniu własnym hasłem i kodem otrzymuje listę wizyt na bieżący dzień. Administrator systemu wprowadza konfigurację (hasła, sekrety 2FA, numer telefonu gabinetu) i otrzymuje dziennik błędów. Harmonogram zadań codziennie o 3:00 uruchamia usuwanie danych wizyt starszych niż 7 dni po terminie i otrzymuje liczbę usuniętych wpisów. Aplikacja uwierzytelniająca otrzymuje przy konfiguracji wspólny sekret 2FA, z którego generuje kody wpisywane przez użytkowników przy logowaniu. Klient, personel i ochroniarz korzystają z systemu przez przeglądarkę internetową.</p>
 
 <h2>3. Aktorzy</h2>
 <table>
@@ -121,17 +142,18 @@
   <tbody>
   <tr><td class="id">Klient</td><td>osoba, aktor główny</td><td>Osoba szukająca terminu wizyty, najczęściej z telefonu. Nie ma konta w systemie i nie musi się logować. Przegląda wolne terminy i rezerwuje wizytę, podając imię i nazwisko oraz numer telefonu. Może mieć jednocześnie najwyżej 2 aktywne rezerwacje. Wizytę odwołuje telefonicznie.</td></tr>
   <tr><td class="id">Recepcjonista</td><td>osoba, aktor główny</td><td>Pracownik gabinetu prowadzący zapisy. Loguje się do panelu hasłem i kodem z aplikacji uwierzytelniającej. Przegląda kalendarz tygodnia, wpisuje wizyty klientów umówionych telefonicznie i odwołuje wizyty, a po odwołaniu dzwoni do klienta.</td></tr>
-  <tr><td class="id">Doktor</td><td>osoba, aktor główny</td><td>Psychoterapeuta przyjmujący klientów. Loguje się do tego samego panelu co recepcjonista. Przegląda kalendarz i listę najbliższych wizyt, ustala tygodniowy grafik przyjęć, z którego wynikają terminy dostępne online, i blokuje terminy, w których nie przyjmuje (np. urlop).</td></tr>
+  <tr><td class="id">Terapeuta</td><td>osoba, aktor główny</td><td>Psychoterapeuta przyjmujący klientów. Loguje się do tego samego panelu co recepcjonista. Przegląda kalendarz i listę najbliższych wizyt, ustala tygodniowy grafik przyjęć, z którego wynikają terminy dostępne online, i blokuje terminy, w których nie przyjmuje (np. urlop).</td></tr>
+  <tr><td class="id">Ochroniarz</td><td>osoba, aktor główny</td><td>Pracownik ochrony budynku, w którym mieści się gabinet. Loguje się do osobnego widoku własnym hasłem i kodem z aplikacji uwierzytelniającej. Widzi wyłącznie listę wizyt na bieżący dzień (godzina, imię i nazwisko klienta) i na jej podstawie wpuszcza klientów do budynku. Nie ma dostępu do panelu ani do numerów telefonów.</td></tr>
   </tbody>
 </table>
-<p>Recepcjonista i doktor korzystają ze wspólnego konta panelu: znają to samo hasło i mają w aplikacji uwierzytelniającej ten sam sekret 2FA. System nie rozróżnia ich uprawnień, a podział obowiązków opisany wyżej jest organizacyjny. Klienci nie mają kont.</p>
+<p>Recepcjonista i terapeuta korzystają ze wspólnego konta panelu: znają to samo hasło i mają w aplikacji uwierzytelniającej ten sam sekret 2FA. System nie rozróżnia ich uprawnień, a podział obowiązków opisany wyżej jest organizacyjny. Ochroniarz ma osobne konto z własnym hasłem i sekretem 2FA. Klienci nie mają kont. Administrator systemu, harmonogram zadań i aplikacja uwierzytelniająca występują na diagramie kontekstu jako jednostki zewnętrzne, ale nie korzystają z funkcji systemu jak jego użytkownicy, dlatego nie ma ich wśród aktorów.</p>
 
 <h2>4. Wymagania funkcjonalne</h2>
 
 <h3>4.1. Diagram przypadków użycia</h3>
 
 <figure>
-<svg viewBox="0 0 780 610" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" font-size="12" fill="#1f2933">
+<svg viewBox="0 0 820 690" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" font-size="12" fill="#1f2933">
   <defs>
     <marker id="o" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#1f2933" stroke-width="1.3"/></marker>
     <g id="actor" stroke="#1f2933" stroke-width="1.5" fill="none">
@@ -142,67 +164,74 @@
       <line x1="0" y1="6" x2="14" y2="30"/>
     </g>
   </defs>
-  <rect x="1" y="1" width="778" height="608" fill="#fff" stroke="#9aa5b1" stroke-width="1"/>
+  <rect x="1" y="1" width="818" height="688" fill="#fff" stroke="#9aa5b1" stroke-width="1"/>
   <text x="12" y="21" font-weight="700" font-size="12.5">Autor: Hubert Zduńczyk</text>
 
-  <rect x="150" y="40" width="480" height="555" fill="#fbfcfd" stroke="#1f3b5c" stroke-width="1.6"/>
-  <text x="390" y="63" text-anchor="middle" font-weight="700" font-size="13.5" fill="#1f3b5c">System rezerwacji wizyt online</text>
+  <rect x="150" y="40" width="550" height="635" fill="#fbfcfd" stroke="#1f3b5c" stroke-width="1.6"/>
+  <text x="425" y="63" text-anchor="middle" font-weight="700" font-size="13.5" fill="#1f3b5c">System rezerwacji wizyt online</text>
 
   <use href="#actor" x="70" y="200"/>
   <text x="70" y="252" text-anchor="middle" font-weight="600" font-size="13">Klient</text>
-  <use href="#actor" x="712" y="185"/>
-  <text x="712" y="237" text-anchor="middle" font-weight="600" font-size="13">Recepcjonista</text>
-  <use href="#actor" x="712" y="405"/>
-  <text x="712" y="457" text-anchor="middle" font-weight="600" font-size="13">Doktor</text>
+  <use href="#actor" x="70" y="470"/>
+  <text x="70" y="522" text-anchor="middle" font-weight="600" font-size="13">Ochroniarz</text>
+  <use href="#actor" x="760" y="200"/>
+  <text x="760" y="252" text-anchor="middle" font-weight="600" font-size="13">Recepcjonista</text>
+  <use href="#actor" x="760" y="430"/>
+  <text x="760" y="482" text-anchor="middle" font-weight="600" font-size="13">Terapeuta</text>
 
   <g stroke="#1f2933" stroke-width="1.3" fill="#fff">
-    <ellipse cx="255" cy="125" rx="90" ry="31"/>
-    <ellipse cx="255" cy="255" rx="82" ry="28"/>
-    <ellipse cx="515" cy="110" rx="103" ry="34"/>
-    <ellipse cx="515" cy="205" rx="82" ry="28"/>
-    <ellipse cx="515" cy="300" rx="92" ry="31"/>
-    <ellipse cx="515" cy="395" rx="86" ry="30"/>
-    <ellipse cx="300" cy="530" rx="92" ry="30"/>
+    <ellipse cx="265" cy="125" rx="90" ry="31"/>
+    <ellipse cx="265" cy="255" rx="82" ry="28"/>
+    <ellipse cx="265" cy="460" rx="90" ry="31"/>
+    <ellipse cx="560" cy="110" rx="100" ry="34"/>
+    <ellipse cx="575" cy="215" rx="82" ry="28"/>
+    <ellipse cx="585" cy="320" rx="90" ry="31"/>
+    <ellipse cx="590" cy="425" rx="85" ry="30"/>
+    <ellipse cx="430" cy="610" rx="95" ry="30"/>
   </g>
   <g text-anchor="middle">
-    <text x="255" y="121"><tspan x="255">UC1: Przeglądanie</tspan><tspan x="255" dy="15">wolnych terminów</tspan></text>
-    <text x="255" y="251"><tspan x="255">UC2: Rezerwowanie</tspan><tspan x="255" dy="15">wizyty</tspan></text>
-    <text x="515" y="99"><tspan x="515">UC3: Wpisywanie wizyty</tspan><tspan x="515" dy="15">umówionej</tspan><tspan x="515" dy="15">telefonicznie</tspan></text>
-    <text x="515" y="201"><tspan x="515">UC4: Odwoływanie</tspan><tspan x="515" dy="15">wizyty</tspan></text>
-    <text x="515" y="296"><tspan x="515">UC6: Przeglądanie</tspan><tspan x="515" dy="15">kalendarza wizyt</tspan></text>
-    <text x="515" y="391"><tspan x="515">UC5: Ustalanie</tspan><tspan x="515" dy="15">grafiku przyjęć</tspan></text>
-    <text x="300" y="526"><tspan x="300">SUB1: Logowanie</tspan><tspan x="300" dy="15">do panelu</tspan></text>
+    <text x="265" y="121"><tspan x="265">UC1: Przeglądanie</tspan><tspan x="265" dy="15">wolnych terminów</tspan></text>
+    <text x="265" y="251"><tspan x="265">UC2: Rezerwowanie</tspan><tspan x="265" dy="15">wizyty</tspan></text>
+    <text x="265" y="456"><tspan x="265">UC7: Przeglądanie listy</tspan><tspan x="265" dy="15">wizyt na dziś</tspan></text>
+    <text x="560" y="99"><tspan x="560">UC3: Wpisywanie wizyty</tspan><tspan x="560" dy="15">umówionej</tspan><tspan x="560" dy="15">telefonicznie</tspan></text>
+    <text x="575" y="211"><tspan x="575">UC4: Odwoływanie</tspan><tspan x="575" dy="15">wizyty</tspan></text>
+    <text x="585" y="316"><tspan x="585">UC6: Przeglądanie</tspan><tspan x="585" dy="15">kalendarza wizyt</tspan></text>
+    <text x="590" y="421"><tspan x="590">UC5: Ustalanie</tspan><tspan x="590" dy="15">grafiku przyjęć</tspan></text>
+    <text x="430" y="606"><tspan x="430">SUB1: Logowanie</tspan><tspan x="430" dy="15">do systemu</tspan></text>
   </g>
 
   <g stroke="#1f2933" stroke-width="1.2">
-    <line x1="90" y1="186" x2="172" y2="138"/>
-    <line x1="90" y1="196" x2="182" y2="244"/>
-    <line x1="692" y1="172" x2="614" y2="122"/>
-    <line x1="692" y1="178" x2="596" y2="208"/>
-    <line x1="692" y1="186" x2="596" y2="288"/>
-    <line x1="692" y1="390" x2="596" y2="315"/>
-    <line x1="692" y1="400" x2="601" y2="397"/>
+    <line x1="90" y1="186" x2="182" y2="138"/>
+    <line x1="90" y1="196" x2="190" y2="244"/>
+    <line x1="90" y1="456" x2="175" y2="458"/>
+    <line x1="740" y1="186" x2="657" y2="120"/>
+    <line x1="740" y1="192" x2="657" y2="214"/>
+    <line x1="740" y1="200" x2="660" y2="303"/>
+    <line x1="740" y1="416" x2="667" y2="335"/>
+    <line x1="740" y1="426" x2="675" y2="425"/>
   </g>
 
   <g stroke="#1f2933" stroke-width="1.2" stroke-dasharray="6 4" fill="none" marker-end="url(#o)">
-    <line x1="255" y1="227" x2="255" y2="158"/>
-    <line x1="420" y1="124" x2="262" y2="502"/>
-    <line x1="440" y1="216" x2="290" y2="500"/>
-    <line x1="430" y1="313" x2="318" y2="501"/>
-    <line x1="442" y1="410" x2="345" y2="505"/>
+    <line x1="265" y1="227" x2="265" y2="158"/>
+    <line x1="460" y1="115" x2="380" y2="584"/>
+    <line x1="495" y1="225" x2="410" y2="581"/>
+    <line x1="497" y1="330" x2="440" y2="581"/>
+    <line x1="510" y1="440" x2="470" y2="584"/>
+    <line x1="310" y1="486" x2="350" y2="592"/>
   </g>
   <g font-size="10.5" font-style="italic" fill="#3d4752">
-    <text x="263" y="197">«include»</text>
-    <text x="276" y="452" transform="rotate(-67.3 276 452)">«include»</text>
-    <text x="309" y="452" transform="rotate(-62.2 309 452)">«include»</text>
-    <text x="343" y="452" transform="rotate(-59.2 343 452)">«include»</text>
-    <text x="371" y="487" transform="rotate(-44.4 371 487)">«include»</text>
+    <text x="273" y="197">«include»</text>
+    <text x="382" y="548" transform="rotate(-80.3 382 548)">«include»</text>
+    <text x="413" y="548" transform="rotate(-76.6 413 548)">«include»</text>
+    <text x="443" y="548" transform="rotate(-77.2 443 548)">«include»</text>
+    <text x="472" y="566" transform="rotate(-74.5 472 566)">«include»</text>
+    <text x="268" y="552">«include»</text>
   </g>
 </svg>
 <figcaption>Rysunek 2. Diagram przypadków użycia</figcaption>
 </figure>
 
-<p>Diagram pokazuje sześć przypadków użycia na poziomie celu użytkownika i jeden przypadek na poziomie podfunkcji (SUB1). Klient przegląda wolne terminy i rezerwuje wizytę. Rezerwowanie zawsze zaczyna się od wyboru jednego z wolnych terminów, dlatego UC2 włącza UC1. Wszystkie przypadki personelu wymagają zalogowania do panelu, dlatego włączają SUB1. Kalendarz wizyt (UC6) przeglądają zarówno recepcjonista, jak i doktor.</p>
+<p>Diagram pokazuje siedem przypadków użycia na poziomie celu użytkownika i jeden przypadek na poziomie podfunkcji (SUB1). Klient przegląda wolne terminy i rezerwuje wizytę. Rezerwowanie zawsze zaczyna się od wyboru jednego z wolnych terminów, dlatego UC2 włącza UC1. Ochroniarz przegląda listę wizyt na dziś (UC7). Przypadki personelu i ochroniarza wymagają zalogowania, dlatego włączają SUB1. Kalendarz wizyt (UC6) przeglądają zarówno recepcjonista, jak i terapeuta.</p>
 
 <h3>4.2. Przypadki użycia</h3>
 
@@ -215,9 +244,10 @@
   <tr><td class="id">UC2</td><td>Rezerwowanie wizyty</td><td>Klient</td><td>cel użytkownika</td><td>Tymon Grochowski</td></tr>
   <tr><td class="id">UC3</td><td>Wpisywanie wizyty umówionej telefonicznie</td><td>Recepcjonista</td><td>cel użytkownika</td><td>Wojciech Czajkowski</td></tr>
   <tr><td class="id">UC4</td><td>Odwoływanie wizyty</td><td>Recepcjonista</td><td>cel użytkownika</td><td>Hubert Zduńczyk</td></tr>
-  <tr><td class="id">UC5</td><td>Ustalanie grafiku przyjęć</td><td>Doktor</td><td>cel użytkownika</td><td>Tymon Grochowski</td></tr>
-  <tr><td class="id">UC6</td><td>Przeglądanie kalendarza wizyt</td><td>Recepcjonista, Doktor</td><td>cel użytkownika</td><td>Wojciech Czajkowski</td></tr>
-  <tr><td class="id">SUB1</td><td>Logowanie do panelu</td><td>Recepcjonista, Doktor</td><td>podfunkcja</td><td>Tymon Grochowski</td></tr>
+  <tr><td class="id">UC5</td><td>Ustalanie grafiku przyjęć</td><td>Terapeuta</td><td>cel użytkownika</td><td>Tymon Grochowski</td></tr>
+  <tr><td class="id">UC6</td><td>Przeglądanie kalendarza wizyt</td><td>Recepcjonista, Terapeuta</td><td>cel użytkownika</td><td>Wojciech Czajkowski</td></tr>
+  <tr><td class="id">UC7</td><td>Przeglądanie listy wizyt na dziś</td><td>Ochroniarz</td><td>cel użytkownika</td><td>Tymon Grochowski</td></tr>
+  <tr><td class="id">SUB1</td><td>Logowanie do systemu</td><td>Recepcjonista, Terapeuta, Ochroniarz</td><td>podfunkcja</td><td>Tymon Grochowski</td></tr>
   </tbody>
 </table>
 
@@ -328,8 +358,8 @@
   </div>
   <div class="lbl">Rozszerzenia:</div>
   <div class="steps">
-    <div><span class="n">1.A.</span> Wizytę trzeba odwołać z inicjatywy gabinetu (np. choroba doktora).</div>
-    <div class="l2"><span class="n">1.A.1.</span> Doktor przekazuje recepcjoniście, które wizyty należy odwołać (dalej jak w 2.).</div>
+    <div><span class="n">1.A.</span> Wizytę trzeba odwołać z inicjatywy gabinetu (np. choroba terapeuty).</div>
+    <div class="l2"><span class="n">1.A.1.</span> Terapeuta przekazuje recepcjoniście, które wizyty należy odwołać (dalej jak w 2.).</div>
     <div><span class="n">4.A.</span> Wizyta już się odbyła.</div>
     <div class="l2"><span class="n">4.A.1.</span> System prezentuje tylko szczegóły wizyty, bez możliwości jej odwołania.</div>
     <div><span class="n">5.A.</span> Recepcjonista rezygnuje z odwołania.</div>
@@ -345,26 +375,26 @@
   <h3>UC5: Ustalanie grafiku przyjęć</h3>
   <div class="lbl">Atrybuty:</div>
   <div class="attrs">
-    <div><b>Główny aktor:</b> Doktor</div>
+    <div><b>Główny aktor:</b> Terapeuta</div>
     <div><b>Priorytet:</b> Wysoki</div>
     <div><b>Źródło:</b> Tymon Grochowski</div>
   </div>
   <div class="lbl">Główny scenariusz:</div>
   <div class="steps">
-    <div><span class="n">1.</span> Doktor loguje się do panelu (SUB1).</div>
+    <div><span class="n">1.</span> Terapeuta loguje się do panelu (SUB1).</div>
     <div><span class="n">2.</span> System prezentuje obecny grafik przyjęć: godziny rozpoczęcia wizyt w każdym dniu tygodnia.</div>
-    <div><span class="n">3.</span> Doktor podaje godziny rozpoczęcia wizyt w dniach przyjęć i oznacza dni bez przyjęć.</div>
-    <div><span class="n">4.</span> Doktor zatwierdza grafik.</div>
+    <div><span class="n">3.</span> Terapeuta podaje godziny rozpoczęcia wizyt w dniach przyjęć i oznacza dni bez przyjęć.</div>
+    <div><span class="n">4.</span> Terapeuta zatwierdza grafik.</div>
     <div><span class="n">5.</span> System sprawdza, czy godziny mieszczą się między 6:00 a 21:00 i czy 50-minutowe wizyty nie nakładają się na siebie.</div>
     <div><span class="n">6.</span> System zapisuje grafik i od tej chwili udostępnia klientom terminy zgodne z nowym grafikiem.</div>
   </div>
   <div class="lbl">Rozszerzenia:</div>
   <div class="steps">
-    <div><span class="n">3.A.</span> Doktor chce wyłączyć z przyjęć pojedynczy termin lub cały dzień (np. urlop) bez zmiany grafiku.</div>
-    <div class="l2"><span class="n">3.A.1.</span> Doktor wskazuje termin lub dzień w kalendarzu tygodnia i wybiera blokadę.</div>
+    <div><span class="n">3.A.</span> Terapeuta chce wyłączyć z przyjęć pojedynczy termin lub cały dzień (np. urlop) bez zmiany grafiku.</div>
+    <div class="l2"><span class="n">3.A.1.</span> Terapeuta wskazuje termin lub dzień w kalendarzu tygodnia i wybiera blokadę.</div>
     <div class="l2"><span class="n">3.A.2.</span> System blokuje wskazane wolne terminy; terminy z umówionymi wizytami pozostają bez zmian.</div>
-    <div><span class="n">3.B.</span> Doktor chce przywrócić wcześniej zablokowany termin lub dzień.</div>
-    <div class="l2"><span class="n">3.B.1.</span> Doktor wskazuje termin lub dzień w kalendarzu i wybiera odblokowanie.</div>
+    <div><span class="n">3.B.</span> Terapeuta chce przywrócić wcześniej zablokowany termin lub dzień.</div>
+    <div class="l2"><span class="n">3.B.1.</span> Terapeuta wskazuje termin lub dzień w kalendarzu i wybiera odblokowanie.</div>
     <div class="l2"><span class="n">3.B.2.</span> System ponownie udostępnia termin do rezerwacji.</div>
     <div><span class="n">5.A.</span> Godzina jest zapisana w niepoprawnej postaci lub poza zakresem 6:00–21:00.</div>
     <div class="l2"><span class="n">5.A.1.</span> System wskazuje dzień z błędem (powrót do 3.).</div>
@@ -379,13 +409,13 @@
   <h3>UC6: Przeglądanie kalendarza wizyt</h3>
   <div class="lbl">Atrybuty:</div>
   <div class="attrs">
-    <div><b>Główny aktor:</b> Recepcjonista, Doktor</div>
+    <div><b>Główny aktor:</b> Recepcjonista, Terapeuta</div>
     <div><b>Priorytet:</b> Średni</div>
     <div><b>Źródło:</b> Wojciech Czajkowski</div>
   </div>
   <div class="lbl">Główny scenariusz:</div>
   <div class="steps">
-    <div><span class="n">1.</span> Pracownik gabinetu (recepcjonista lub doktor) loguje się do panelu (SUB1).</div>
+    <div><span class="n">1.</span> Pracownik gabinetu (recepcjonista lub terapeuta) loguje się do panelu (SUB1).</div>
     <div><span class="n">2.</span> System prezentuje kalendarz bieżącego tygodnia z terminami wolnymi, zajętymi (z imieniem klienta) i zablokowanymi oraz listę najbliższych wizyt.</div>
     <div><span class="n">3.</span> Pracownik wybiera poprzedni lub następny tydzień.</div>
     <div><span class="n">4.</span> System prezentuje kalendarz wybranego tygodnia.</div>
@@ -404,10 +434,36 @@
 </div>
 
 <div class="uc">
-  <h3>SUB1: Logowanie do panelu <span class="sub">(poziom podfunkcji)</span></h3>
+  <h3>UC7: Przeglądanie listy wizyt na dziś</h3>
   <div class="lbl">Atrybuty:</div>
   <div class="attrs">
-    <div><b>Główny aktor:</b> Recepcjonista, Doktor</div>
+    <div><b>Główny aktor:</b> Ochroniarz</div>
+    <div><b>Priorytet:</b> Średni</div>
+    <div><b>Źródło:</b> Tymon Grochowski</div>
+  </div>
+  <div class="lbl">Główny scenariusz:</div>
+  <div class="steps">
+    <div><span class="n">1.</span> Ochroniarz loguje się do widoku ochrony (SUB1).</div>
+    <div><span class="n">2.</span> System prezentuje listę wizyt na bieżący dzień w kolejności godzin: godzinę wizyty oraz imię i nazwisko klienta.</div>
+    <div><span class="n">3.</span> Klient przychodzi do budynku i podaje ochroniarzowi imię i nazwisko.</div>
+    <div><span class="n">4.</span> Ochroniarz odnajduje klienta na liście i wpuszcza go do budynku.</div>
+  </div>
+  <div class="lbl">Rozszerzenia:</div>
+  <div class="steps">
+    <div><span class="n">2.A.</span> Na bieżący dzień nie ma umówionych wizyt.</div>
+    <div class="l2"><span class="n">2.A.1.</span> System informuje, że na dziś nie ma wizyt.</div>
+    <div><span class="n">2.B.</span> W ciągu dnia wizyta zostaje dopisana lub odwołana.</div>
+    <div class="l2"><span class="n">2.B.1.</span> System co 5 minut oraz na żądanie ochroniarza prezentuje aktualną listę.</div>
+    <div><span class="n">4.A.</span> Klienta nie ma na liście.</div>
+    <div class="l2"><span class="n">4.A.1.</span> Ochroniarz kontaktuje się telefonicznie z recepcją gabinetu.</div>
+  </div>
+</div>
+
+<div class="uc">
+  <h3>SUB1: Logowanie do systemu <span class="sub">(poziom podfunkcji)</span></h3>
+  <div class="lbl">Atrybuty:</div>
+  <div class="attrs">
+    <div><b>Główny aktor:</b> Recepcjonista, Terapeuta, Ochroniarz</div>
     <div><b>Priorytet:</b> Wysoki</div>
     <div><b>Źródło:</b> Tymon Grochowski</div>
   </div>
@@ -420,7 +476,10 @@
   <div class="lbl">Rozszerzenia:</div>
   <div class="steps">
     <div><span class="n">1.A.</span> Na tym urządzeniu trwa już ważna sesja.</div>
-    <div class="l2"><span class="n">1.A.1.</span> System od razu prezentuje kalendarz wizyt, bez logowania.</div>
+    <div class="l2"><span class="n">1.A.1.</span> System od razu prezentuje właściwy widok, bez logowania.</div>
+    <div><span class="n">1.B.</span> Loguje się ochroniarz.</div>
+    <div class="l2"><span class="n">1.B.1.</span> Ochroniarz podaje hasło ochrony i kod z własnej aplikacji uwierzytelniającej.</div>
+    <div class="l2"><span class="n">1.B.2.</span> System sprawdza hasło i kod, rozpoczyna sesję ważną 12 godzin i prezentuje listę wizyt na dziś, bez dostępu do panelu.</div>
     <div><span class="n">2.A.</span> Hasło lub kod jest niepoprawny.</div>
     <div class="l2"><span class="n">2.A.1.</span> System informuje o nieudanym logowaniu, nie wskazując, który element był błędny (powrót do 1.).</div>
     <div><span class="n">2.B.</span> Z tego samego połączenia internetowego było 8 nieudanych prób logowania w ciągu ostatnich 15 minut.</div>
@@ -438,7 +497,7 @@
   <thead><tr><th style="width:12mm">Nr</th><th>Wymaganie</th><th style="width:52mm">Miara</th></tr></thead>
   <tbody>
   <tr><td class="id">U1</td><td>Klient rezerwuje wizytę na telefonie bez instrukcji obsługi, w trzech krokach: wybór terminu, podanie danych, potwierdzenie.</td><td>Co najmniej 9 na 10 osób w teście z użytkownikami kończy rezerwację samodzielnie w czasie do 2 minut.</td></tr>
-  <tr><td class="id">U2</td><td>Personel gabinetu bez przygotowania technicznego obsługuje panel po krótkim wdrożeniu.</td><td>Przeszkolenie jednej osoby trwa najwyżej 30 minut.</td></tr>
+  <tr><td class="id">U2</td><td>Personel gabinetu i ochroniarz bez przygotowania technicznego obsługują system po krótkim wdrożeniu.</td><td>Przeszkolenie jednej osoby (pracownika gabinetu lub ochroniarza) trwa najwyżej 30 minut.</td></tr>
   <tr><td class="id">U3</td><td>Strona rezerwacji i panel działają na ekranach telefonów i komputerów w aktualnych wersjach przeglądarek Chrome, Safari, Firefox i Edge.</td><td>Brak przewijania w poziomie przy szerokości ekranu od 320 pikseli.</td></tr>
   <tr><td class="id">U4</td><td>Komunikaty o błędach są po polsku i mówią, co należy poprawić lub gdzie zadzwonić.</td><td>100% komunikatów błędów zawiera wskazówkę dalszego działania.</td></tr>
   <tr><td class="id">U5</td><td>Interfejs jest dostępny dla osób korzystających z klawiatury i czytników ekranu.</td><td>Zgodność z WCAG 2.1 na poziomie AA (kontrast, widoczny fokus, etykiety pól).</td></tr>
@@ -463,7 +522,7 @@
   <tbody>
   <tr><td class="id">P1</td><td>Wolne terminy tygodnia wyświetlają się szybko także na telefonie.</td><td>Najwyżej 2 sekundy dla 95% żądań przy połączeniu komórkowym 4G.</td></tr>
   <tr><td class="id">P2</td><td>Zapis rezerwacji i operacje w panelu kończą się bez odczuwalnego oczekiwania.</td><td>Najwyżej 3 sekundy dla 95% operacji.</td></tr>
-  <tr><td class="id">P3</td><td>System obsługuje wielu klientów jednocześnie.</td><td>Co najmniej 50 jednoczesnych użytkowników strony rezerwacji i 2 zalogowanych pracowników bez przekroczenia czasów z P1 i P2.</td></tr>
+  <tr><td class="id">P3</td><td>System obsługuje wielu klientów jednocześnie.</td><td>Co najmniej 50 jednoczesnych użytkowników strony rezerwacji i 3 zalogowanych osób (pracownicy gabinetu i ochroniarz) bez przekroczenia czasów z P1 i P2.</td></tr>
   <tr><td class="id">P4</td><td>System obsługuje ruch większy niż potrzeby gabinetu.</td><td>Co najmniej 100 rezerwacji na godzinę (gabinet przyjmuje ok. 15 wizyt tygodniowo).</td></tr>
   <tr><td class="id">P5</td><td>System mieści się w limitach darmowych planów usług chmurowych (koszt 0 zł).</td><td>Rozmiar bazy danych poniżej 50 MB dzięki usuwaniu danych wizyt po 7 dniach.</td></tr>
   </tbody>
@@ -473,15 +532,16 @@
 <table>
   <thead><tr><th style="width:12mm">Nr</th><th>Wymaganie</th><th style="width:52mm">Miara</th></tr></thead>
   <tbody>
-  <tr><td class="id">S1</td><td>Dostęp do panelu wymaga dwóch składników: hasła i jednorazowego kodu z aplikacji uwierzytelniającej (TOTP).</td><td>100% wejść do panelu z hasłem i 6-cyfrowym kodem; bez skonfigurowanego 2FA panel nikogo nie wpuszcza.</td></tr>
+  <tr><td class="id">S1</td><td>Dostęp do panelu i do widoku ochrony wymaga dwóch składników: hasła i jednorazowego kodu z aplikacji uwierzytelniającej (TOTP).</td><td>100% wejść z hasłem i 6-cyfrowym kodem; bez skonfigurowanego 2FA system nikogo nie wpuszcza.</td></tr>
   <tr><td class="id">S2</td><td>System utrudnia odgadnięcie hasła.</td><td>Po 8 nieudanych próbach z jednego adresu w ciągu 15 minut logowanie jest blokowane na 15 minut.</td></tr>
-  <tr><td class="id">S3</td><td>Sesja panelu wygasa i nie da się jej przejąć przez skrypt strony.</td><td>Sesja ważna najwyżej 30 dni; ciasteczko z flagami HttpOnly, Secure i SameSite.</td></tr>
+  <tr><td class="id">S3</td><td>Sesje wygasają i nie da się ich przejąć przez skrypt strony.</td><td>Sesja panelu ważna najwyżej 30 dni, sesja ochrony 12 godzin; ciasteczko z flagami HttpOnly, Secure i SameSite.</td></tr>
   <tr><td class="id">S4</td><td>Cała komunikacja jest szyfrowana.</td><td>100% ruchu przez HTTPS z wymuszeniem HSTS.</td></tr>
   <tr><td class="id">S5</td><td>System zbiera minimum danych osobowych i usuwa je, gdy przestają być potrzebne (RODO).</td><td>Zbierane tylko imię i nazwisko oraz telefon; dane wizyty usuwane automatycznie 7 dni po terminie, zapisy prób logowania po 1 dobie.</td></tr>
   <tr><td class="id">S6</td><td>Adresy IP są pseudonimizowane.</td><td>Adres IP zapisywany wyłącznie jako skrót HMAC-SHA-256, z którego nie da się odtworzyć adresu.</td></tr>
   <tr><td class="id">S7</td><td>Publiczna lista terminów nie ujawnia danych innych klientów.</td><td>Odpowiedź zawiera tylko informację „wolny / niedostępny”, bez nazwisk i powodu niedostępności.</td></tr>
   <tr><td class="id">S8</td><td>System jest odporny na zapychanie kalendarza fałszywymi rezerwacjami.</td><td>Najwyżej 2 aktywne rezerwacje na numer telefonu i 3 rezerwacje na dobę z jednego adresu; ukryte pole odrzuca automaty.</td></tr>
   <tr><td class="id">S9</td><td>Strona nie przekazuje danych odwiedzających podmiotom trzecim.</td><td>Brak zewnętrznych skryptów, czcionek i analityki; polityka bezpieczeństwa treści (CSP) dopuszcza tylko zasoby własne.</td></tr>
+  <tr><td class="id">S10</td><td>Ochroniarz ma dostęp wyłącznie do danych niezbędnych do wpuszczenia klienta.</td><td>Widok ochrony zawiera tylko godzinę oraz imię i nazwisko klientów umówionych na bieżący dzień; osobne hasło i sekret 2FA; brak dostępu do panelu i numerów telefonów.</td></tr>
   </tbody>
 </table>
 
