@@ -5,6 +5,7 @@ import { ensureSchema, sql, SLOT_MINUTES, requireAuth, j, readBody } from '../_l
 
 const DAY_FROM = 6 * 60; // najwcześniejszy początek wizyty: 6:00
 const DAY_TO = 21 * 60; // najpóźniejszy: 21:00
+const DAY_PL = ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'];
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return j(res, 405, { error: 'Method not allowed' });
@@ -21,14 +22,14 @@ export default async function handler(req, res) {
         clean[d] = null;
         continue;
       }
-      if (!Array.isArray(v) || v.length > 20) return j(res, 400, { error: `Nieprawidłowy grafik (dzień ${d})` });
+      if (!Array.isArray(v) || v.length > 20) return j(res, 400, { error: `Nieprawidłowy grafik (${DAY_PL[d]})` });
       const mins = v.map(Number).sort((a, b) => a - b);
       for (const [i, m] of mins.entries()) {
         if (!Number.isInteger(m) || m < DAY_FROM || m > DAY_TO) {
-          return j(res, 400, { error: `Godzina poza zakresem 6:00–21:00 (dzień ${d})` });
+          return j(res, 400, { error: `${DAY_PL[d]}: godzina poza zakresem 6:00–21:00` });
         }
         if (i > 0 && m - mins[i - 1] < SLOT_MINUTES) {
-          return j(res, 400, { error: `Wizyty nakładają się (dzień ${d}) — odstęp min. ${SLOT_MINUTES} min` });
+          return j(res, 400, { error: `${DAY_PL[d]}: wizyty nakładają się — odstęp między początkami min. ${SLOT_MINUTES} min` });
         }
       }
       clean[d] = mins;

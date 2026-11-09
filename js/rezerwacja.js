@@ -7,10 +7,12 @@ const MAX_WEEKS_AHEAD = 5; // 28 dni naprzód mieści się w bieżącym i 4 kole
 
 let monday = thisWeek;
 let selected = null; // { date, min, time }
+let phoneNumber = '';
 
 const weeksFromNow = () => Math.round((monday - thisWeek) / (7 * 86400e3));
 
 function showPhone(phone) {
+  phoneNumber = phone;
   for (const a of document.querySelectorAll('.js-phone')) {
     a.textContent = phone;
     a.href = `tel:${phone.replace(/\s/g, '')}`;
@@ -18,7 +20,8 @@ function showPhone(phone) {
 }
 
 // autoSkip: przy otwarciu strony przeskocz do pierwszego tygodnia, w którym są wolne terminy.
-async function loadWeek({ autoSkip = false } = {}) {
+// noneAhead: w całym oknie rezerwacji online (28 dni) nie ma wolnego terminu (UC1, rozszerzenie 2.A).
+async function loadWeek({ autoSkip = false, noneAhead = false } = {}) {
   $('week-label').textContent = weekLabel(monday);
   $('week-prev').disabled = weeksFromNow() <= 0;
   $('week-next').disabled = weeksFromNow() >= MAX_WEEKS_AHEAD - 1;
@@ -32,16 +35,25 @@ async function loadWeek({ autoSkip = false } = {}) {
   }
   if (res.body.contactPhone) showPhone(res.body.contactPhone);
   const anyFree = res.body.days.some((d) => d.slots.some((s) => s.available));
-  if (autoSkip && !anyFree && weeksFromNow() < MAX_WEEKS_AHEAD - 1) {
-    monday = addDays(monday, 7);
-    return loadWeek({ autoSkip: true });
+  if (autoSkip && !anyFree) {
+    if (weeksFromNow() < MAX_WEEKS_AHEAD - 1) {
+      monday = addDays(monday, 7);
+      return loadWeek({ autoSkip: true });
+    }
+    // Sprawdzono wszystkie tygodnie okna rezerwacji — wróć do bieżącego i podaj telefon.
+    monday = thisWeek;
+    return loadWeek({ noneAhead: true });
   }
-  renderDays(res.body.days);
+  renderDays(res.body.days, noneAhead);
 }
 
-function renderDays(days) {
+function renderDays(days, noneAhead = false) {
   const anyFree = days.some((d) => d.slots.some((s) => s.available));
-  $('status').textContent = anyFree ? 'Wybierz godzinę, która Ci odpowiada.' : 'W tym tygodniu nie ma wolnych terminów online. Sprawdź kolejny tydzień.';
+  if (noneAhead) {
+    $('status').textContent = `W ciągu najbliższych 28 dni nie ma wolnych terminów online. Zadzwoń do gabinetu: ${phoneNumber}.`;
+  } else {
+    $('status').textContent = anyFree ? 'Wybierz godzinę, która Ci odpowiada.' : 'W tym tygodniu nie ma wolnych terminów online. Sprawdź kolejny tydzień.';
+  }
 
   const cards = days.map(({ date, slots }) => {
     const d = parseISO(date);
